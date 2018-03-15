@@ -7,10 +7,10 @@ node {
   checkout scm
 
   stage 'Build image'
-//EINGEFÜGT
-//  sh("go build -o main .")
-//  sh("docker build -t example-${imageTag} -Dockerfile.scratch .")
-//! EINGEFÜGT
+    //EINGEFÜGT
+    //  sh("go build -o main .")
+    //  sh("docker build -t example-${imageTag} -Dockerfile.scratch .")
+    //! EINGEFÜGT
   sh("docker build -t ${imageTag} .")
 
   stage 'Run Go tests'
