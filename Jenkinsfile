@@ -45,12 +45,13 @@ node {
   }
   stage 'Deploying To Production'
    switch (env.BRANCH_NAME) {
-    // Roll out to production  
-    // Change deployed image in canary to the one we just built
-    sh("sed -i.bak 's#gcr.io/cloud-solutions-images/gceme:1.0.0#${imageTag}#' ./k8s/production/*.yaml")
-    sh("kubectl --namespace=production apply -f k8s/services/")
-    sh("kubectl --namespace=production apply -f k8s/production/")
-    sh("echo http://`kubectl --namespace=production get service/${feSvcName} --output=json | jq -r '.status.loadBalancer.ingress[0].ip'` > ${feSvcName}")
-    break
+     case "master":
+        // Roll out to production  
+        // Change deployed image in canary to the one we just built
+        sh("sed -i.bak 's#gcr.io/cloud-solutions-images/gceme:1.0.0#${imageTag}#' ./k8s/production/*.yaml")
+        sh("kubectl --namespace=production apply -f k8s/services/")
+        sh("kubectl --namespace=production apply -f k8s/production/")
+        sh("echo http://`kubectl --namespace=production get service/${feSvcName} --output=json | jq -r '.status.loadBalancer.ingress[0].ip'` > ${feSvcName}")
+        break
     }
 }
