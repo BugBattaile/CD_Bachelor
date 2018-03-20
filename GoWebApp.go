@@ -63,8 +63,10 @@ const (
 func indexHandler(w http.ResponseWriter, r *http.Request) {
 	tpl := template.Must(template.New("out").Parse(index))
 	i := &Instance{}
+	fmt.Fprintf(w, index)
+
 	tpl.Execute(w, i)
-	//fmt.Fprintf(w, index)
+	fmt.Fprintf(w, index)
 }
 
 func main() {
