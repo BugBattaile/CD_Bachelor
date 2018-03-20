@@ -30,7 +30,7 @@ node {
     case "master":
         sh("kubectl get ns production || kubectl create ns production")
         // Don't use public load balancing for development branches
-        sh("sed -i.bak 's#LoadBalancer#ClusterIP#' ./k8s/services/frontend.yaml")
+       // sh("sed -i.bak 's#LoadBalancer#ClusterIP#' ./k8s/services/frontend.yaml")
     
         // Change deployed image in canary to the one we just built
         sh("sed -i.bak 's#gcr.io/cloud-solutions-images/gceme:1.0.0#${imageTag}#' ./k8s/production/*.yaml")
