@@ -1,5 +1,5 @@
 node {
-  def project = 'cd-jenkins-193814'
+  def project = 'leuphana-bachelor'
   def appName = 'gceme'
   def feSvcName = "${appName}-frontend"
   def imageTag = "gcr.io/${project}/${appName}:${env.BRANCH_NAME}.${env.BUILD_NUMBER}"
