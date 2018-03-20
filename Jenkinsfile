@@ -7,10 +7,6 @@ node {
   checkout scm
 
   stage 'Build image'
-//EINGEFÜGT
-//  sh("go build -o main .")
-//  sh("docker build -t example-${imageTag} -Dockerfile.scratch .")
-//! EINGEFÜGT
   sh("docker build -t ${imageTag} .")
 
   stage 'Run Go tests'
@@ -42,10 +38,6 @@ node {
     // Roll out a dev environment
     //default:
     case "development":
-        // Create namespace if it doesn't exist
-    //sh("kubectl get ns ${env.BRANCH_NAME} || kubectl create ns ${env.BRANCH_NAME}")
-        // Don't use public load balancing for development branches
-    //sh("sed -i.bak 's#LoadBalancer#ClusterIP#' ./k8s/services/frontend.yaml")
         sh("sed -i.bak 's#gcr.io/cloud-solutions-images/gceme:1.0.0#${imageTag}#' ./k8s/dev/*.yaml")
         sh("kubectl --namespace=${env.BRANCH_NAME} apply -f k8s/services/")
         sh("kubectl --namespace=${env.BRANCH_NAME} apply -f k8s/dev/")
