@@ -4,8 +4,6 @@ import (
 	"net/http"
 	"net/http/httptest"
 	"testing"
-
-	"cloud.google.com/go/compute/metadata"
 )
 
 func TestMain(t *testing.T) {
@@ -34,13 +32,6 @@ func TestHealthCheckHandler(t *testing.T) {
 	if rr.Body.String() != expected {
 		t.Errorf("handler returned unexpected body: got %v want %v",
 			rr.Body.String(), expected)
-	}
-}
-
-func TestGCE(t *testing.T) {
-	i := newInstance()
-	if !metadata.OnGCE() && i.Error != "Not running on GCE" {
-		t.Error("Test not running on GCE, but error does not indicate that fact.")
 	}
 }
 
