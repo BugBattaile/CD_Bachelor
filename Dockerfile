@@ -23,4 +23,9 @@
 # If you are building your code for production
 # RUN npm install --only=production
 
-FROM golang:1.6.3-onbuild
+FROM golang:latest 
+RUN mkdir /app 
+ADD . /app/ 
+WORKDIR /app 
+RUN go build -o main . 
+CMD ["/app/main"]

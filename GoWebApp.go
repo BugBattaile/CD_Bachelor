@@ -2,7 +2,6 @@ package main
 
 import (
 	"html/template"
-	"io"
 	"net/http"
 )
 
@@ -30,15 +29,7 @@ func pageHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
-	http.HandleFunc("/", homeHandler)
 	http.HandleFunc("/home", homeHandler)
 	http.HandleFunc("/page", pageHandler)
 	http.ListenAndServe(":80", nil)
-}
-
-// HealthCheckHandler as a simple HTTP Health check
-func HealthCheckHandler(w http.ResponseWriter, r *http.Request) {
-	w.WriteHeader(http.StatusOK)
-	io.WriteString(w, `{"alive": true}`)
-	//	w.Header().Set("Content-Type", "application/json")
 }
