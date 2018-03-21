@@ -13,6 +13,7 @@ node {
   
   sh("docker run -d ${imageTag} go run gowebapp.go")
   sh("docker run ${imageTag} go test")
+  sh("docker stop ${imageTag}")
 
   stage 'Push image to registry'
   sh("gcloud docker -- push ${imageTag}")
