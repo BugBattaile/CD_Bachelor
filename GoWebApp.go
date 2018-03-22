@@ -5,17 +5,20 @@ import (
 	"net/http"
 )
 
+// WebData - Statische Meldungen
 type WebData struct {
-	Title string
-	Page  string
+	Title   string
+	Page    string
+	Content string
 }
 
 //HomeHandler - Bereitstellen der home.html
 func HomeHandler(w http.ResponseWriter, r *http.Request) {
 	tmpl, _ := template.ParseFiles("layout.html", "home.html")
 	wd := WebData{
-		Title: "WebApp",
-		Page:  "Home",
+		Title:   "WebApp",
+		Page:    "Home",
+		Content: "This is a simple Webapp written in Go.",
 	}
 	tmpl.Execute(w, &wd)
 }
@@ -24,8 +27,9 @@ func HomeHandler(w http.ResponseWriter, r *http.Request) {
 func PageHandler(w http.ResponseWriter, r *http.Request) {
 	tmpl, _ := template.ParseFiles("layout.html", "page.html")
 	wd := WebData{
-		Title: "WebApp",
-		Page:  "Page",
+		Title:   "WebApp",
+		Page:    "Page",
+		Content: "It has been deployed throw a Continuous Delivery Pipeline in a Kubernetes Cluster.",
 	}
 	tmpl.Execute(w, &wd)
 }

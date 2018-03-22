@@ -43,15 +43,15 @@ node {
     // Roll out a dev environment
     //default:
     case "development":
-// sh("sed -i.bak 's#gcr.io/cloud-solutions-images/gceme:1.0.0#${imageTag}#' ./k8s/dev/*.yaml")
-        //sh("kubectl --namespace=${env.BRANCH_NAME} apply -f k8s/services/")
-       // sh("kubectl --namespace=${env.BRANCH_NAME} apply -f k8s/dev/")
+        sh("sed -i.bak 's#gcr.io/cloud-solutions-images/gceme:1.0.0#${imageTag}#' ./k8s/dev/*.yaml")
+        sh("kubectl --namespace=${env.BRANCH_NAME} apply -f k8s/services/")
+        sh("kubectl --namespace=${env.BRANCH_NAME} apply -f k8s/dev/frontend-dev.yaml")
         //echo 'To access your environment run `kubectl proxy`'
         //echo "Then access your service via http://localhost:8001/api/v1/proxy/namespaces/${env.BRANCH_NAME}/services/${feSvcName}:80/"
-        
-
-        sh("kubectl run dev-node --image='${imageTag}' --port=80")
-        sh("kubectl get deployments")
-        sh("cd-jenkins service dev-node")
+        sh("echo http://`kubectl --namespace=development get service/${feSvcName} --output=json | jq -r '.status.loadBalancer.ingress[0].ip'` > ${feSvcName}")
+       
+       // sh("kubectl run dev-node --image='${imageTag}' --port=80")
+      //  sh("kubectl get deployments")
+      //  sh("cd-jenkins service dev-node")
   }
 }
