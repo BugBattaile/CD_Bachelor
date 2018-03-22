@@ -2,7 +2,6 @@ package main
 
 import (
 	"html/template"
-	"io"
 	"net/http"
 )
 
@@ -11,6 +10,7 @@ type WebData struct {
 	Page  string
 }
 
+//HomeHandler - Bereitstellen der home.html
 func HomeHandler(w http.ResponseWriter, r *http.Request) {
 	tmpl, _ := template.ParseFiles("layout.html", "home.html")
 	wd := WebData{
@@ -20,6 +20,7 @@ func HomeHandler(w http.ResponseWriter, r *http.Request) {
 	tmpl.Execute(w, &wd)
 }
 
+//PageHandler - Bereitstellen der page.html
 func pageHandler(w http.ResponseWriter, r *http.Request) {
 	tmpl, _ := template.ParseFiles("layout.html", "page.html")
 	wd := WebData{
