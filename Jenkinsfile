@@ -50,7 +50,7 @@ node {
         //echo "Then access your service via http://localhost:8001/api/v1/proxy/namespaces/${env.BRANCH_NAME}/services/${feSvcName}:80/"
         
 
-        sh("kubectl run dev-node --image='gcr.io/cloud-solutions-images/gceme:1.0.0#${imageTag}' --port=80")
+        sh("kubectl run dev-node --image='s#gcr.io/cloud-solutions-images/gceme:1.0.0#${imageTag}#' --port=80")
         sh("kubectl get deployments")
         sh("cd-jenkins service dev-node")
   }
