@@ -32,7 +32,7 @@ node {
         // Change deployed image in canary to the one we just built
         sh("sed -i.bak 's#gcr.io/cloud-solutions-images/ceme:1.0.0g#${imageTag}#' ./k8s/frontend-production.yaml")
         sh("kubectl --namespace=production apply -f k8s/services.yaml")
-        sh("kubectl --namespace=production apply -f k8s/frontend-production.ymal")
+        sh("kubectl --namespace=production apply -f k8s/frontend-production.yaml")
         sh("echo http://`kubectl --namespace=production get service/${feSvcName} --output=json | jq -r '.status.loadBalancer.ingress[0].ip'` > ${feSvcName}")
         break
 
