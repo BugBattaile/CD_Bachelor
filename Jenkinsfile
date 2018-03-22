@@ -30,9 +30,7 @@ node {
     // Roll out to production
     case "master":
         sh("kubectl get ns production || kubectl create ns production")
-        // Don't use public load balancing for development branches
-       // sh("sed -i.bak 's#LoadBalancer#ClusterIP#' ./k8s/services/frontend.yaml")
-    
+   
         // Change deployed image in canary to the one we just built
         sh("sed -i.bak 's#gcr.io/cloud-solutions-images/ceme:1.0.0g#${imageTag}#' ./k8s/production/*.yaml")
         sh("kubectl --namespace=production apply -f k8s/services/")
@@ -49,9 +47,5 @@ node {
         //echo 'To access your environment run `kubectl proxy`'
         //echo "Then access your service via http://localhost:8001/api/v1/proxy/namespaces/${env.BRANCH_NAME}/services/${feSvcName}:80/"
         sh("echo http://`kubectl --namespace=development get service/${feSvcName} --output=json | jq -r '.status.loadBalancer.ingress[0].ip'` > ${feSvcName}")
-       
-       // sh("kubectl run dev-node --image='${imageTag}' --port=80")
-      //  sh("kubectl get deployments")
-      //  sh("cd-jenkins service dev-node")
   }
 }
