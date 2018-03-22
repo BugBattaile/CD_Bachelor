@@ -23,13 +23,8 @@ func HomeHandler(w http.ResponseWriter, r *http.Request) {
 	tmpl.Execute(w, &wd)
 }
 
-<<<<<<< HEAD
 //PageHandler - Bereitstellen der page.html
-func pageHandler(w http.ResponseWriter, r *http.Request) {
-=======
-//PageHandler -Bereitstellen der page.html
 func PageHandler(w http.ResponseWriter, r *http.Request) {
->>>>>>> development
 	tmpl, _ := template.ParseFiles("layout.html", "page.html")
 	wd := WebData{
 		Title:   "WebApp",
