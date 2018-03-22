@@ -22,19 +22,17 @@ node {
     case "canary":
         // Change deployed image in canary to the one we just built
         sh("sed -i.bak 's#gcr.io/cloud-solutions-images/gceme:1.0.0#${imageTag}#' ./k8s/canary/*.yaml")
-        sh("kubectl --namespace=production apply -f k8s/services/")
-        sh("kubectl --namespace=production apply -f k8s/canary/")
+        sh("kubectl --namespace=production apply -f k8s/services.yaml")
+        sh("kubectl --namespace=production apply -f k8s/frontend-canary.yaml")
         sh("echo http://`kubectl --namespace=production get service/${feSvcName} --output=json | jq -r '.status.loadBalancer.ingress[0].ip'` > ${feSvcName}")
         break
 
     // Roll out to production
     case "master":
-        sh("kubectl get ns production || kubectl create ns production")
-   
         // Change deployed image in canary to the one we just built
         sh("sed -i.bak 's#gcr.io/cloud-solutions-images/ceme:1.0.0g#${imageTag}#' ./k8s/production/*.yaml")
-        sh("kubectl --namespace=production apply -f k8s/services/")
-        sh("kubectl --namespace=production apply -f k8s/production/")
+        sh("kubectl --namespace=production apply -f k8s/services.yaml")
+        sh("kubectl --namespace=production apply -f k8s/frontend-production.ymal")
         sh("echo http://`kubectl --namespace=production get service/${feSvcName} --output=json | jq -r '.status.loadBalancer.ingress[0].ip'` > ${feSvcName}")
         break
 
@@ -42,8 +40,8 @@ node {
     //default:
     case "development":
         sh("sed -i.bak 's#gcr.io/cloud-solutions-images/gceme:1.0.0#${imageTag}#' ./k8s/dev/*.yaml")
-        sh("kubectl --namespace=${env.BRANCH_NAME} apply -f k8s/services/")
-        sh("kubectl --namespace=${env.BRANCH_NAME} apply -f k8s/dev/frontend-dev.yaml")
+        sh("kubectl --namespace=${env.BRANCH_NAME} apply -f k8s/services.yaml")
+        sh("kubectl --namespace=${env.BRANCH_NAME} apply -f k8s/frontend-dev.yaml")
         //echo 'To access your environment run `kubectl proxy`'
         //echo "Then access your service via http://localhost:8001/api/v1/proxy/namespaces/${env.BRANCH_NAME}/services/${feSvcName}:80/"
         sh("echo http://`kubectl --namespace=development get service/${feSvcName} --output=json | jq -r '.status.loadBalancer.ingress[0].ip'` > ${feSvcName}")
