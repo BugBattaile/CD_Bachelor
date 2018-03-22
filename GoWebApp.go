@@ -2,7 +2,6 @@ package main
 
 import (
 	"html/template"
-	"io"
 	"net/http"
 )
 
@@ -11,6 +10,7 @@ type WebData struct {
 	Page  string
 }
 
+//HomeHandler - Bereitstellen der home.html
 func HomeHandler(w http.ResponseWriter, r *http.Request) {
 	tmpl, _ := template.ParseFiles("layout.html", "home.html")
 	wd := WebData{
@@ -20,7 +20,8 @@ func HomeHandler(w http.ResponseWriter, r *http.Request) {
 	tmpl.Execute(w, &wd)
 }
 
-func pageHandler(w http.ResponseWriter, r *http.Request) {
+//PageHandler -Bereitstellen der page.html
+func PageHandler(w http.ResponseWriter, r *http.Request) {
 	tmpl, _ := template.ParseFiles("layout.html", "page.html")
 	wd := WebData{
 		Title: "WebApp",
@@ -31,7 +32,7 @@ func pageHandler(w http.ResponseWriter, r *http.Request) {
 
 func main() {
 	http.HandleFunc("/home", HomeHandler)
-	http.HandleFunc("/page", pageHandler)
+	http.HandleFunc("/page", PageHandler)
 	http.HandleFunc("/", HomeHandler)
 
 	http.Handle("/css/", http.StripPrefix("/css/", http.FileServer(http.Dir("css"))))
