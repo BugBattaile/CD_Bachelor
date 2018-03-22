@@ -21,7 +21,7 @@ node {
     // Roll out to canary environment
     case "canary":
         // Change deployed image in canary to the one we just built
-        sh("sed -i.bak 's#gcr.io/cloud-solutions-images/gceme:1.0.0#${imageTag}#' ./k8s/canary/*.yaml")
+        sh("sed -i.bak 's#gcr.io/cloud-solutions-images/gceme:1.0.0#${imageTag}#' ./k8s/frontend-canary.yaml")
         sh("kubectl --namespace=production apply -f k8s/services.yaml")
         sh("kubectl --namespace=production apply -f k8s/frontend-canary.yaml")
         sh("echo http://`kubectl --namespace=production get service/${feSvcName} --output=json | jq -r '.status.loadBalancer.ingress[0].ip'` > ${feSvcName}")
@@ -30,7 +30,7 @@ node {
     // Roll out to production
     case "master":
         // Change deployed image in canary to the one we just built
-        sh("sed -i.bak 's#gcr.io/cloud-solutions-images/ceme:1.0.0g#${imageTag}#' ./k8s/production/*.yaml")
+        sh("sed -i.bak 's#gcr.io/cloud-solutions-images/ceme:1.0.0g#${imageTag}#' ./k8s/frontend-production.yaml")
         sh("kubectl --namespace=production apply -f k8s/services.yaml")
         sh("kubectl --namespace=production apply -f k8s/frontend-production.ymal")
         sh("echo http://`kubectl --namespace=production get service/${feSvcName} --output=json | jq -r '.status.loadBalancer.ingress[0].ip'` > ${feSvcName}")
@@ -39,7 +39,7 @@ node {
     // Roll out a dev environment
     //default:
     case "development":
-        sh("sed -i.bak 's#gcr.io/cloud-solutions-images/gceme:1.0.0#${imageTag}#' ./k8s/dev/*.yaml")
+        sh("sed -i.bak 's#gcr.io/cloud-solutions-images/gceme:1.0.0#${imageTag}#' ./k8s/frontend-dev.yaml")
         sh("kubectl --namespace=${env.BRANCH_NAME} apply -f k8s/services.yaml")
         sh("kubectl --namespace=${env.BRANCH_NAME} apply -f k8s/frontend-dev.yaml")
         //echo 'To access your environment run `kubectl proxy`'
