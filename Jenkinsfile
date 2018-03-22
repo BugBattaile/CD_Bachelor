@@ -1,7 +1,7 @@
 node {
   def project = 'cd-jenkins-193814'
   def appName = 'gowebapp'
-  def feSvcName = "${appName}-frontend"
+  def feSvcName = "${appName}"
   def imageTag = "gcr.io/${project}/${appName}:${env.BRANCH_NAME}.${env.BUILD_NUMBER}"
 
   checkout scm
