@@ -2,7 +2,7 @@
 kind: Service
 apiVersion: v1
 metadata:
-  name: gceme-frontend
+  name: gowebapp-service
 spec:
   type: LoadBalancer
   ports:
@@ -41,5 +41,3 @@ spec:
           httpGet:
             path: /healthz
             port: 80
-        ports:
-          containerPort: 80
